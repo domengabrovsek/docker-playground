@@ -1,0 +1,29 @@
+version: '2'
+services:
+  php:
+    image: domengabrovsek/nginx-php-mysql:php
+    container_name: php
+    volumes:
+      - ./:/app
+    working_dir: /app
+  web:
+    image: domengabrovsek/nginx-php-mysql:nginx
+    container_name: nginx
+    volumes:
+      - ./:/app
+    depends_on:
+      - php
+    ports:
+      - 80:80
+  mysql:
+    image: mysql:5.7.21
+    container_name: mysql
+    volumes:
+      - ./:/app
+      - dbdata:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=root
+      - MYSQL_ROOT_PASSWORD=root
+    working_dir: /app
+volumes: 
+  dbdata:
