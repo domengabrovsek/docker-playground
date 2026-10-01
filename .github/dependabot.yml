@@ -1,0 +1,27 @@
+# One monthly pull request with every version update across all ecosystems, plus
+# one grouped pull request per ecosystem for security fixes. Same file in every repo.
+version: 2
+
+multi-ecosystem-groups:
+  dependencies:
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: chore
+      include: scope
+    labels:
+      - dependencies
+
+updates:
+  - package-ecosystem: docker
+    directories:
+      - /mysql-php-nginx/nginx
+      - /mysql-php-nginx/php
+    patterns: ["*"]
+    multi-ecosystem-group: dependencies
+    cooldown:
+      default-days: 7
+    groups:
+      security:
+        applies-to: security-updates
+        patterns: ["*"]
